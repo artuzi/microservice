@@ -61,7 +61,7 @@ public class Microservico implements Serializable {
 	public String getAtivo() {
 		return ativo;
 	}
-	public void setIdSistema(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public void setNome(String nome) {

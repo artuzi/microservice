@@ -34,10 +34,10 @@ public class Sistema implements Serializable {
     @Column(name = "ativo")
     String ativo;
 	
-	public Long getIdSistema() {
+	public Long getId() {
 		return id;
 	}
-	public void setIdSistema(Long id) {
+	public void set(Long id) {
 		this.id = id;
 	}
 	public String getNome() {

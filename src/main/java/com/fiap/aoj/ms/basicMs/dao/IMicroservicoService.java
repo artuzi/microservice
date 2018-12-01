@@ -14,6 +14,7 @@ public interface IMicroservicoService {
 	Microservico get(Long id);
 	Microservico edit(Microservico microservico);
     void delete(Microservico microservico);
+    void deleteById(Long id);
     List getAll();
     long count();
 

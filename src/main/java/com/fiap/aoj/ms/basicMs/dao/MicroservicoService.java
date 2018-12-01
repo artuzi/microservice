@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fiap.aoj.ms.basicMs.entity.Microservico;
+import com.fiap.aoj.ms.basicMs.entity.Sistema;
 
 @Service
 public class MicroservicoService implements IMicroservicoService {
@@ -38,6 +39,12 @@ public class MicroservicoService implements IMicroservicoService {
 		microservicoRepository.delete(microservico);
 	}
 
+	@Override
+	public void deleteById(Long id) {
+		Microservico microservico = microservicoRepository.findById(id).get();
+		microservicoRepository.delete(microservico);		
+	}	
+	
 	@Override
 	public long count() {
 		return microservicoRepository.count();

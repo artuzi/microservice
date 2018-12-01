@@ -2,6 +2,8 @@ package com.fiap.aoj.ms.basicMs.controller;
 
 import java.util.List;
 
+import javax.persistence.Column;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,73 +16,75 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fiap.aoj.ms.basicMs.dao.ISistemaService;
-import com.fiap.aoj.ms.basicMs.entity.Sistema;
+import com.fiap.aoj.ms.basicMs.dao.IMicroservicoService;
+import com.fiap.aoj.ms.basicMs.entity.Microservico;
 
 @RestController
-@RequestMapping("/sistema")
-public class SistemaController {
+@RequestMapping("/microservico")
+public class MicroservicoController {
 
-	Logger logger = LoggerFactory.getLogger(SistemaController.class);	
+	Logger logger = LoggerFactory.getLogger(MicroservicoController.class);	
 
 	@Autowired
-	private ISistemaService sistemaService;	
+	private IMicroservicoService microservicoService;	
 	
 	
 	@RequestMapping(method = RequestMethod.POST, value="/insert")
-	public ResponseEntity<Sistema> insertSistema(@RequestBody Sistema sistema) {
+	public ResponseEntity<Microservico> insertMicroservico(@RequestBody Microservico microservico) {
 		
-		sistemaService.create(sistema);
-		logger.info("Insert processado " + sistema.getNome());
+		microservicoService.create(microservico);
+		logger.info("Insert processado " + microservico.getNome());
 		
-		return new ResponseEntity<>(sistema,HttpStatus.OK);
+		return new ResponseEntity<>(microservico,HttpStatus.OK);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value="/update/{id}")
-	public ResponseEntity<Void> updateSistema(@PathVariable Long id,@RequestBody Sistema sistema) {
+	public ResponseEntity<Void> updateMicroservico(@PathVariable Long id,@RequestBody Microservico microservico) {
 		
-		Sistema oldSistema = sistemaService.get(id);
-		oldSistema.setNome(sistema.getNome() );
-		oldSistema.setHost(sistema.getHost() );
-		oldSistema.setVersao(sistema.getVersao());
-		oldSistema.setAtivo(sistema.getAtivo());
-		sistemaService.edit(oldSistema);
 		
-		logger.info("Update processado " + sistema.getNome());
-		//MUDOU
+		Microservico oldMicroservico = microservicoService.get(id);
+		oldMicroservico.setNome(microservico.getNome() );
+		oldMicroservico.setEndPoint(microservico.getEndPoint());
+		oldMicroservico.setContainer(microservico.getContainer());
+		oldMicroservico.setVersao(microservico.getVersao());
+		oldMicroservico.setBanco(microservico.getBanco());
+		oldMicroservico.setAtivo(microservico.getAtivo());
+		microservicoService.edit(oldMicroservico);
+		
+		logger.info("Update processado " + microservico.getNome());
 		
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 	
 	@GetMapping("/get/{id}")
-	public ResponseEntity<Sistema> getSistema(@PathVariable Long id) {
+	public ResponseEntity<Microservico> getMicroservico(@PathVariable Long id) {
 		
-		Sistema sistema = null;
+		Microservico microservico = null;
 		
 		try {
-			sistema = sistemaService.get(id);
-			logger.info("get processado " + sistema.getNome());
+			microservico = microservicoService.get(id);
+			logger.info("get processado " + microservico.getNome());
 		} catch (Exception e) {
 			logger.error("Nao encontrato " + id);
-			return new ResponseEntity<>(sistema,HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(microservico,HttpStatus.NOT_FOUND);
 		}
 		
-		return new ResponseEntity<>(sistema,HttpStatus.OK);
+		return new ResponseEntity<>(microservico,HttpStatus.OK);
 	}
 	
 	@GetMapping("/delete/{id}")
-	public ResponseEntity<Void> deleteSistema(@PathVariable Long id) {
+	public ResponseEntity<Void> deleteMicroservico(@PathVariable Long id) {
 		
-		sistemaService.deleteById(id);
+		microservicoService.deleteById(id);
 		logger.info("delete processado " + id);
 		
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 	@GetMapping("/getAll")
-	public List<Sistema> getAll() {
-		logger.info("retornando todos os sistemas");
-		return sistemaService.getAll();
+	public List<Microservico> getAll() {
+		logger.info("retornando todos os microservicos");
+		return microservicoService.getAll();
 	}
 }
